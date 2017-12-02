@@ -1,6 +1,10 @@
 Rails.application.routes.draw do 
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy'
+
   namespace :admin do
-    # devise_for :users
+    resources :users
     resources :estudiantes
     resources :actividads
   end
