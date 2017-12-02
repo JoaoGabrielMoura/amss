@@ -6,7 +6,7 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
-    before_action :authenticate_admin
+    before_action :authorize
 
     def authenticate_admin
       # TODO Add authentication logic here.
@@ -17,5 +17,13 @@ module Admin
     # def records_per_page
     #   params[:per_page] || 20
     # end
+    def current_user
+      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    end
+    helper_method :current_user
+  
+    def authorize
+      redirect_to '/login' unless @current_user
+    end
   end
 end
